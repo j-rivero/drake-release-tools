@@ -1,26 +1,8 @@
-#!/bin/bash
+#!/bin/bash -e
 
 source "lib/config.bash"
 
 RELEASE_REPO_DIR="$(mktemp -d)/drake-release"
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-NC='\033[0m' # No Color
-
-error()
-{
-  local msg=${1}
-
-  echo -e "${RED}[EE] ${msg}${NC}"
-  exit 1
-}
-
-info()
-{
-  local msg=${1}
-
-  echo -e "${GREEN}[-] ${msg}${NC}"
-}
 
 clone_release_repo()
 {
