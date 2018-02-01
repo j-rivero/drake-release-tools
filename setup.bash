@@ -6,6 +6,7 @@ sudo apt-get install -y git git-buildpackage build-essential dpkg-dev devscripts
 
 if [[ -z `which bazel` ]]; then
     info "Did not find bazel. Proceed with the installation"
+    sudo apt-get install -y -qq openjdk-8-jdk bash-completion zlib1g-dev
     # TODO: this piece of code is extracted from the setup/ directory in the drake
     # main repository. Refactoring that script should help to avoid the duplication
     dpkg_install_from_wget() {
