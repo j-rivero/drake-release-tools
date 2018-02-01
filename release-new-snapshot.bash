@@ -21,7 +21,7 @@ info()
 
 clone_release_repo()
 {
-  git clone ${RELEASE_REPO_URL} ${RELEASE_REPO_DIR} > git_clone.log || error "Failed the clone of ${RELEASE_REPO_URL}"
+  git clone ${RELEASE_REPO_URL} ${RELEASE_REPO_DIR} -q > git_clone.log || error "Failed the clone of ${RELEASE_REPO_URL}"
   pushd ${RELEASE_REPO_DIR} > /dev/null
   # need upstream branch to make gbp work
   git checkout upstream
