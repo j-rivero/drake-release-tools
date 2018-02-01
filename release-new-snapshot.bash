@@ -46,7 +46,7 @@ generate_snapshot()
 import_snapshot()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  gbp import-orig ../drake*.orig.tar.xz
+  gbp import-orig --no-interactive ../drake*.orig.tar.xz
   rm ../drake*.orig.tar.xz
   popd > /dev/null
 }
