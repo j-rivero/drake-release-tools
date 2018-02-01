@@ -36,14 +36,15 @@ generate_snapshot()
   pushd ${RELEASE_REPO_DIR} > /dev/null
   ./debian/rules get-orig-source > get_orig.log || error "Failed to get the drake snapshot"
   ls *.tar.xz || error "Unable to find the snapshot generated"
+  mv *.tar.xz ../
   popd > /dev/null
 }
 
 import_snapshot()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  gbp import-orig drake*.orig.tar.xz
-  rm drake*.orig.tar.xz
+  gbp import-orig ../drake*.orig.tar.xz
+  rm ../drake*.orig.tar.xz
   popd > /dev/null
 }
 
