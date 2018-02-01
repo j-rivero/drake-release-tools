@@ -77,6 +77,8 @@ clone_release_repo
 
 info "Generate snapshot from drake source code"
 generate_snapshot 
+
+info "Import snapshot from drake source code"
 import_snapshot 
 
 info "Generate debian changelogs"
