@@ -11,7 +11,7 @@ error()
 {
   local msg=${1}
 
-  echo "${RED}[EE] ${msg}${NC}"
+  echo -e "${RED}[EE] ${msg}${NC}"
   exit 1
 }
 
@@ -19,7 +19,7 @@ info()
 {
   local msg=${1}
 
-  echo "${GREEN}[-] ${msg}${NC}"
+  echo -e "${GREEN}[-] ${msg}${NC}"
 }
 
 clone_release_repo()
