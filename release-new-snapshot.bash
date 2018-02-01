@@ -1,0 +1,85 @@
+#!/bin/bash
+
+source "lib/config.bash"
+
+RELEASE_REPO_DIR="$(mktemp -d)/drake-release"
+
+error()
+{
+  local msg=${1}
+
+  echo "[EE] ${msg}"
+  exit 1
+}
+
+info()
+{
+  local msg=${1}
+
+  echo "[-] ${msg}"
+}
+
+clone_release_repo()
+{
+  git clone ${RELEASE_REPO_URL} ${RELEASE_REPO_DIR} > git_clone.log || error "Failed the clone of ${RELEASE_REPO_URL}"
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  # need upstream branch to make gbp work
+  git checkout upstream
+  git checkout master
+  popd > /dev/null
+}
+
+generate_snapshot()
+{
+  local repo_path=${1}
+
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  ./debian/rules get-orig-source > get_orig.log || error "Failed to get the drake snapshot"
+  ls *.tar.xz || error "Unable to find the snapshot generated"
+  popd > /dev/null
+}
+
+import_snapshot()
+{
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  gbp import-orig drake*.orig.tar.xz
+  rm drake*.orig.tar.xz
+  popd > /dev/null
+}
+
+generate_changelog()
+{
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  gbp dch --auto --multimaint-merge --ignore-branch --distribution `lsb_release -c -s` --force-distribution --commit || error "Problem generating the new changelog entry"
+  popd > /dev/null
+}
+
+install_build_dependencies()
+{
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  mk-build-deps -r -i debian/control --tool 'apt-get --yes -o Debug::pkgProblemResolver=yes -o  Debug::BuildDeps=yes'
+  popd > /dev/null
+}
+
+build_package()
+{
+  pushd ${RELEASE_REPO_DIR} > /dev/null
+  gbp buildpackage --git-force-create --git-notify=false --git-ignore-branch --git-ignore-new --git-verbose --git-export-dir=../build-area -sa -S -uc -us 
+  popd > /dev/null
+}
+
+info "Cloning the release repository"
+clone_release_repo
+
+info "Generate snapshot from drake source code"
+generate_snapshot 
+import_snapshot 
+
+info "Generate debian changelogs"
+generate_changelog
+
+info "Install build dependencies"
+install_build_dependencies
+
+info "Build packages"
+build_package
