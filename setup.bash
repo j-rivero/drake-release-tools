@@ -2,7 +2,7 @@
 
 source "lib/config.bash"
 
-sudo apt-get install -y git git-buildpackage build-essential dpkg-dev devscripts
+sudo apt-get install -y git git-buildpackage build-essential dpkg-dev devscripts equivs
 
 if [[ -z `which bazel` ]]; then
     info "Did not find bazel. Proceed with the installation"
