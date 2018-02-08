@@ -49,5 +49,6 @@ ENV LC_ALL en_GB.utf8
 ENV LANG en_GB.utf8
 ENV LANGUAGE en_GB
 ENV RUNLEVEL 1
+VOLUME drake-pkgs:pkgs
 COPY builder builder
 RUN chmod +x builder/release-new-snapshot.bash
