@@ -127,13 +127,16 @@ install_build_dependencies()
 build_package()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  gbp buildpackage --git-force-create --git-notify=false --git-ignore-branch --git-ignore-new --git-verbose --git-export-dir=../build-area -sa -j4 -uc -us
+  gbp buildpackage --git-force-create --git-notify=false --git-ignore-branch --git-ignore-new --git-verbose --git-export-dir=../build-area -sa -j1 -uc -us
   popd > /dev/null
 }
 
 export_pkgs()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
+  pwd
+  touch /pkgs/drake.deb || true
+  find /tmp -name drake-*.deb -exec mv {} /pkgs/ \; || true
   mv ../*.deb ../*.dsc ../*.xz /pkgs/ || true
   popd > /dev/null
 }
