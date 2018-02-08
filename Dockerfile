@@ -15,7 +15,10 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu xenial multiverse" \
                                                          >> /etc/apt/sources.list && \
       echo "deb http://archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse" && \
                                                          >> /etc/apt/sources.list
+RUN echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-drake xenial main" >\
+                                                /etc/apt/sources.list.d/osrf.drake.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D2486D2DD83DB69272AFE98867170598AF249743
+RUN wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 
 RUN apt-get update && apt-get install -y build-essential \
                    cmake           \
