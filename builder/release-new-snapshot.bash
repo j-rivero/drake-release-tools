@@ -85,7 +85,6 @@ clone_release_repo()
 {
   git clone ${RELEASE_REPO_URL} ${RELEASE_REPO_DIR} -q > git_clone.log || error "Failed the clone of ${RELEASE_REPO_URL}"
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  cat debian/rules
   # need upstream branch to make gbp work
   git checkout upstream
   git checkout master
@@ -115,7 +114,6 @@ generate_changelog()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
   gbp dch --auto --multimaint-merge --ignore-branch --distribution `lsb_release -c -s` --force-distribution --commit || error "Problem generating the new changelog entry"
-  cat debian/changelog
   popd > /dev/null
 }
 
@@ -144,6 +142,9 @@ export_pkgs()
 info "Cloning the release repository"
 clone_release_repo
 
+info "Installing Bazel"
+install_bazel
+
 info "Generate snapshot from drake source code"
 generate_snapshot 
 
@@ -152,9 +153,6 @@ import_snapshot
 
 info "Generate debian changelogs"
 generate_changelog
-
-info "Installing Bazel"
-install_bazel
 
 info "Install build dependencies"
 install_build_dependencies
