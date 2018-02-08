@@ -127,7 +127,7 @@ install_build_dependencies()
 build_package()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  gbp buildpackage --git-force-create --git-notify=false --git-ignore-branch --git-ignore-new --git-verbose --git-export-dir=../build-area -sa -S -uc -us 
+  gbp buildpackage --git-force-create --git-notify=false --git-ignore-branch --git-ignore-new --git-verbose --git-export-dir=../build-area -sa -j4 -uc -us
   popd > /dev/null
 }
 
@@ -146,10 +146,10 @@ info "Installing Bazel"
 install_bazel
 
 info "Generate snapshot from drake source code"
-generate_snapshot 
+generate_snapshot
 
 info "Import snapshot from drake source code"
-import_snapshot 
+import_snapshot
 
 info "Generate debian changelogs"
 generate_changelog
