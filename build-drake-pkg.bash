@@ -14,4 +14,4 @@ docker run -e TERM=xterm-256color \
     --tty \
     --rm \
     ${IMAGE_NAME} \
-    bin/bash -e builder/release-new-snapshot.bash
+    bin/bash -ex builder/release-new-snapshot.bash
