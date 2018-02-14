@@ -128,7 +128,7 @@ install_build_dependencies()
 build_package()
 {
   pushd ${RELEASE_REPO_DIR} > /dev/null
-  MAKE_JOBS=${MAKE_JOBS:=2} # two compiling threads by default
+  MAKE_JOBS=${MAKE_JOBS:=4} # four compiling threads by default
   gbp buildpackage --git-force-create \
                    --git-notify=false \
                    --git-ignore-branch \
