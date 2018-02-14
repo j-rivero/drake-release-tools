@@ -5,6 +5,7 @@ DEBIAN_FRONTEND=noninteractive
 DEBFULLNAME='TRI builder'
 DEBEMAIL='tri@builder.test'
 RELEASE_REPO_DIR="$(mktemp -d)/drake-release"
+RELEASE_BUILD_AREA="/tmp/build-area"
 
 git config --global user.email "${DEBFULLNAME}"
 git config --global user.name "${DEBEMAIL}"
@@ -134,17 +135,15 @@ build_package()
                    --git-ignore-new \
                    --git-verbose \
                    -j${MAKE_JOBS} \
-                   --git-export-dir=../build-area \
+                   --git-export-dir=${RELEASE_BUILD_AREA} \
                    -sa -uc -us
   popd > /dev/null
 }
 
 export_pkgs()
 {
-  pushd ${RELEASE_REPO_DIR} > /dev/null
-  touch /pkgs/drake.deb || true
-  find /tmp -name drake-*.deb -exec mv {} /pkgs/ \; > /pkgs/drake.log || true
-  mv ../*.deb ../*.dsc ../*.xz /pkgs/ || true
+  pushd ${RELEASE_BUILD_AREA} > /dev/null
+  mv *.deb *.dsc *.tar.* /pkgs/ || true
   popd > /dev/null
 }
 
