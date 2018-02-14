@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-RELEASE_REPO_URL="https://github.com/j-rivero/drake-release"
+RELEASE_REPO_URL="https://github.com/osrf/drake-release"
 DEBIAN_FRONTEND=noninteractive
 DEBFULLNAME='TRI builder'
 DEBEMAIL='tri@builder.test'
